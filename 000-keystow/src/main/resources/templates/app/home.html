@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      layout:decorate="~{layout/default}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:data="http://www.thymeleaf.org/extras/data"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>App</title>
+</head>
+
+<body>
+
+<nav layout:fragment="top-menu" th:replace="~{fragments/nav-app :: nav-menu}"></nav>
+
+<div class="container my-5" layout:fragment="page-content">
+    
+    <div class="row">
+        
+        <nav th:replace="~{fragments/nav-app-aside-lateral}"></nav>
+        
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9">
+            
+            <div class="d-flex flex-wrap justify-content-between">
+                <h1>Meu Cofre</h1>
+                <div class="d-flex flex-wrap align-items-end gap-2">
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-outline-light border active" title="Lista" type="button">
+                            <i aria-hidden="true" class="bi-list-ul fs-5"></i>
+                        </button>
+                        
+                        <button class="btn border" title="Grade" type="button">
+                            <i aria-hidden="true" class="bi-grid-3x3-gap fs-5"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="dropdown-menu-end">
+                        <button aria-expanded="false" aria-haspopup="true" aria-label="Opções"
+                                class="btn border dropdown-toggle fs-5"
+                                data-bs-offset="0, 10"
+                                data-bs-toggle="dropdown"
+                                id="actionsButton"
+                                title="Opções"
+                                type="button">
+                            <i aria-hidden="true" class="bi-gear"></i>
+                        </button>
+                        
+                        <div aria-labelledby="actionsButton" class="dropdown-menu">
+                            <button class="dropdown-item">
+                                <i aria-hidden="true" class="bi-folder"></i>
+                                Mover Selecionados
+                            </button>
+                            
+                            <button class="dropdown-item text-danger js-btn-home-excluir-selecionados"
+                                    data:url="@{/credencial/all}">
+                                <i aria-hidden="true" class="bi-trash"></i>
+                                Excluir Selecionados
+                            </button>
+                            
+                            <div class="dropdown-divider"></div>
+                            
+                            <button class="dropdown-item js-btn-home-marcar-todos">
+                                <i aria-hidden="true" class="bi-check-square"></i>
+                                Selecionar Todos
+                            </button>
+                            
+                            <button class="dropdown-item js-btn-home-desmarcar-todos">
+                                <i aria-hidden="true" class="bi-dash-square"></i>
+                                Desmarcar Todos
+                            </button>
+                        
+                        </div>
+                    </div>
+                    
+                    <div th:replace="~{fragments/btn.html::add-all-itens}"></div>
+                
+                </div>
+            </div>
+            
+            <hr>
+            
+            <ul class="list-group list-group-flush mt-4 gap-4">
+                
+                <th:block th:each="item, stat : ${itensCredencialList}">
+                    <li class="list-group-item list-group-item-action fs-4 rounded" style="border: 1px solid rgba(0, 0, 0, 0.175);">
+                        
+                        <label class="row">
+                            
+                            <div class="col-12 p-4">
+                                
+                                <div class="row mb-3">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <input class="form-check-input flex-shrink-0 js-checkbox-selecionar-item-id"
+                                                   data:id="${item.id}"
+                                                   type="checkbox">
+                                            <i aria-hidden="true" class="bi-globe2 mx-3"></i>
+                                            <a class="text-decoration-none"
+                                               th:href="@{/credencial/{id}(id=${item.id})}">
+                                                [[${item.nome}]]
+                                            </a>
+                                        </div>
+                                        
+                                        <div class="dropdown dropdown-menu-end">
+                                            
+                                            <button aria-expanded="false"
+                                                    aria-haspopup="true"
+                                                    aria-label="Opções"
+                                                    class="btn border dropdown-toggle fs-5"
+                                                    data-bs-offset="0, 10"
+                                                    data-bs-toggle="dropdown"
+                                                    id="dropdownMenuBtnItemOptions"
+                                                    th:id="${'dropdownMenuBtnItemOptions' + stat.index}"
+                                                    title="Opções"
+                                                    type="button">
+                                                <i aria-hidden="true" class="bi-three-dots-vertical"></i>
+                                            </button>
+                                            
+                                            <div aria-labelledby="dropdownMenuBtnItemOptions" class="dropdown-menu">
+                                                
+                                                <a class="dropdown-item"
+                                                   rel="noreferrer noopener"
+                                                   target="_blank"
+                                                   th:href="${#lists.isEmpty(item.uris) ? '' : 'https://' + item.uris[0].valor}"
+                                                   th:target="${#lists.isEmpty(item.uris) ? '_self' : '_blank'}">
+                                                    <i aria-hidden="true" class="bi-box-arrow-up-right"></i>
+                                                    Abrir
+                                                </a>
+                                                
+                                                <a class="dropdown-item" th:href="@{/credencial/{id}(id=${item.id})}">
+                                                    <i aria-hidden="true" class="bi-pencil"></i>
+                                                    Editar
+                                                </a>
+                                                
+                                                <a class="dropdown-item" href="#">
+                                                    <i aria-hidden="true" class="bi-folder"></i>
+                                                    Mover
+                                                </a>
+                                                
+                                                <a class="dropdown-item js-btn-app-home-favoritar"
+                                                   data:url="@{/credencial/favoritos}"
+                                                   href="#">
+                                                    <i class="text-primary"
+                                                       th:classappend="${item.favorito} ? 'bi-star-fill' : 'bi-star'"></i> Favorito
+                                                    <input class="d-none js-input-check-app-home-favorito"
+                                                           data:favorito="${item.favorito}"
+                                                           data:id="${item.id}"
+                                                           th:checked="${item.favorito}"
+                                                           type="checkbox">
+                                                </a>
+                                                
+                                                <a class="dropdown-item" href="#">
+                                                    <i aria-hidden="true" class="bi-share"></i>
+                                                    Compartilhar
+                                                </a>
+                                                
+                                                <a class="dropdown-item" href="#">
+                                                    <i aria-hidden="true" class="bi-files"></i>
+                                                    Clonar
+                                                </a>
+                                                
+                                                <a class="dropdown-item text-danger js-excluir-btn" data:objeto="${item.nome}"
+                                                   data:url="@{/credencial/{id}(id=${item.id})}"
+                                                   href="#">
+                                                    <i aria-hidden="true" class="bi bi-trash"></i> Excluir
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-2 ms-5 mb-3">
+                                    <div class="col-sm-10">
+                                        <label class="form-label d-none" for="usernameListApp"
+                                               th:for="${'usernameListApp' + stat.index}">
+                                            Nome de usuário
+                                        </label>
+                                        <div class="input-group">
+                                            <input class="form-control form-control-lg js-input-clipboard" disabled id="usernameListApp"
+                                                   readonly
+                                                   th:id="${'usernameListApp' + stat.index}"
+                                                   th:value="${item.nomeDeUsuario}"
+                                                   type="text"/>
+                                            <button aria-label="Copiar Nome de Usuário"
+                                                    class="btn btn-lg btn-outline-secondary js-btn-copiar-valor"
+                                                    style="border: 1px solid #ced4da"
+                                                    title="Copiar Nome de Usuário"
+                                                    type="button">
+                                                <i aria-hidden="true" class="bi-files"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-2 ms-5 mb-3">
+                                    <div class="col-sm-10">
+                                        <div class="input-group">
+                                            <label class="form-label d-none" for="senhaListApp" th:for="${'senhaListApp' + stat.index}">Senha</label>
+                                            <input class="form-control form-control-lg text-monospace rounded-start
+                                                   js-input-visibilidade js-input-clipboard js-form-input-add-senha"
+                                                   disabled
+                                                   id="senhaListApp"
+                                                   readonly
+                                                   th:id="${'senhaListApp' + stat.index}"
+                                                   th:value="${item.senha}"
+                                                   type="text"/>
+                                            <button aria-label="Alternar Visibilidade"
+                                                    class="btn btn-lg btn-outline-secondary js-btn-olho"
+                                                    style="border: 1px solid #ced4da"
+                                                    title="Alternar Visibilidade"
+                                                    type="button">
+                                                <i aria-hidden="true" class="bi bi-eye-slash js-icon-tag-olho"></i>
+                                            </button>
+                                            <button aria-label="Copiar Senha"
+                                                    class="btn btn-lg btn-outline-secondary js-btn-copiar-valor"
+                                                    style="border: 1px solid #ced4da"
+                                                    title="Copiar Senha"
+                                                    type="button">
+                                                <i aria-hidden="true" class="bi-files"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                    </li>
+                </th:block>
+            </ul>
+            
+            <div th:if="${itensCredencialList == null || itensCredencialList.isEmpty()}">
+                <div class="pt-3 mt-2">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <span>Você ainda não adicionou nenhum item</span>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="footer" th:replace="~{fragments/footer-app}"></div>
+
+<th:block layout:fragment="js-extra">
+    <script th:src="@{/js/ItemFavorito.js(v=${version})}"></script>
+    <script th:src="@{/js/SelecionarItemAction.js(v=${version})}"></script>
+</th:block>
+
+</body>
+
+</html>

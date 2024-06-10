@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      layout:decorate="~{layout/default}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login</title>
+</head>
+
+<body>
+<div class="container mb-3" layout:fragment="page-content">
+    
+    <div class="d-flex flex-column align-items-center justify-content-center mt-4">
+        
+        <th:block th:if="${#bools.isTrue(param.error)}">
+            <div th:replace="~{fragments/alerts :: alert(type='danger', message=#{login.error}, bi='exclamation-triangle')}"></div>
+        </th:block>
+        
+        <th:block th:if="${#bools.isTrue(param.logout)}">
+            <div th:replace="~{fragments/alerts :: alert(type='success', message=#{logout.success}, bi='check-circle')}"></div>
+        </th:block>
+        
+        <div class="card col-10 col-sm-10 col-md-7 col-lg-5 p-4">
+            <form th:action="@{/login}" th:method="POST">
+                
+                <div class="text-center mb-3">
+                    <a th:href="@{/}">
+                        <img alt="logo keystow" class="img-fluid" th:src="@{assets/logo/logo-height-black.svg}">
+                    </a>
+                    <h1 class="display-6 fs-4 mt-4">
+                        Inicie a sessão ou crie uma conta para acessar seu cofre seguro.
+                    </h1>
+                </div>
+                
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="email" name="email" placeholder="name@example.com" type="text">
+                    <label for="email">Endereço de email</label>
+                </div>
+                
+                <div>
+                    <div class="input-group">
+                        <div class="form-floating">
+                            <input class="form-control js-input-visibilidade"
+                                   id="password"
+                                   name="password"
+                                   placeholder="Digite sua senha"
+                                   type="text">
+                            <label for="password" th:text="#{user.login.label.senha}">
+                                Digite sua senha
+                            </label>
+                        </div>
+                        <button class="btn btn-outline-secondary rounded-end input-group-text js-btn-olho js-btn-olho"
+                                style="border: 1px solid #ced4da;"
+                                type="button">
+                            <i aria-hidden="true" class="bi bi-eye-slash fs-4 js-icon-tag-olho"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mt-2">
+                    <a class="text-decoration-none" th:href="@{/dica}">
+                        Obter dica de senha mestra
+                    </a>
+                </div>
+                
+                <div class="mt-2 form-check">
+                    <input class="form-check-input" id="remember-me" name="remember-me" type="checkbox">
+                    <label class="form-check-label" for="remember-me">
+                        Lembrar e-mail
+                    </label>
+                </div>
+                
+                <hr>
+                
+                <div class="d-grid">
+                    <button class="btn btn-primary btn-lg shadow-lg " id="submit-button" type="submit">
+                        Fazer login
+                    </button>
+                </div>
+                
+                <hr>
+                
+                <div class="d-grid gap-3">
+                    <a class="btn btn-outline-dark btn-lg border shadow-lg" href="#">
+                        <svg th:replace="~{cadastro-google}"></svg>
+                        Registre-se pelo Google
+                    </a>
+                    
+                    <a class="btn btn-outline-dark btn-lg border shadow-lg" href="#">
+                        <svg th:replace="~{cadastro-facebook}"></svg>
+                        Continuar pelo Facebook
+                    </a>
+                </div>
+                
+                <p class="mt-4 align-baseline">Ainda não tem uma conta?
+                    <a class="text-decoration-none fw-bold" th:href="@{/cadastro}">
+                        Criar conta
+                        <i class="bi bi-box-arrow-up-right fs-4"></i>
+                    </a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

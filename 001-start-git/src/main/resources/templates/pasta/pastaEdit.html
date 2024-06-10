@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      layout:decorate="~{layout/default}"
+      xmlns:keystow="http://keystow.com"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${pastaFormDto.isNew} ? 'Criar Pasta' : 'Editar Pasta'">
+        CREATE OU UPDATE
+    </title>
+</head>
+
+<body>
+
+<nav layout:fragment="top-menu" th:replace="~{fragments/nav-app :: nav-menu}"></nav>
+
+<div class="container my-4" layout:fragment="page-content">
+    
+    <keystow:field-errors-object fieldObject="pastaFormDto"/>
+    
+    <div class="row">
+        
+        <nav th:replace="~{fragments/nav-app-aside-lateral}"></nav>
+        
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9">
+            
+            <form class="card"
+                  th:action="${pastaFormDto.isNew} ? @{/pasta/add} : @{/pasta/{id}}"
+                  th:method="POST"
+                  th:object="${pastaFormDto}">
+                
+                <input th:field="*{id}" type="hidden"/>
+                
+                <div class="card-header d-flex flex-wrap justify-content-between align-items-center p-4">
+                    
+                    <h1 class="h4 card-title text-uppercase my-auto">
+                        <a class="btn border me-2" href="javascript:history.back()">
+                            <i aria-hidden="true" class="bi bi-arrow-left fs-4"></i>
+                        </a>
+                        [[${pastaFormDto.isNew} ? 'Add Pasta' : 'Editar Pasta']]
+                    </h1>
+                    <div th:replace="~{fragments/btn.html::add-all-itens}"></div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col form-group mb-3">
+                            <label class="control-label form-label" for="nome">Nome</label>
+                            <input class="form-control" id="nome" keystow:classforerror="nome" th:field="*{nome}" type="text">
+                            <div class="invalid-feedback" th:errors="*{nome}"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer p-4 d-flex flex-column flex-sm-row gap-3">
+                    <button class="btn btn-lg btn-primary" type="submit">
+                        [[${pastaFormDto.isNew} ? 'Salvar' : 'Atualizar']]
+                    </button>
+                    <a class="btn btn-lg border" href="javascript:history.back()">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="footer" th:replace="~{fragments/footer-app}"></div>
+
+</body>
+</html>

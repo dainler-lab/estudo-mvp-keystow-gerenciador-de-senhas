@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      th:with="version=${#strings.randomAlphanumeric(4)}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:keystow="http://keystow.com"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Keystow</title>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="stylesheet" th:href="@{/vendors/bootstrap/bootstrap-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/bootstrap-switch/bootstrap-switch.min.css}">
+    <link rel="stylesheet" th:href="@{/vendors/sweetalert2/bootstrap-4.css}">
+    <link rel="stylesheet" th:href="@{/css/keystow.css(v=${version})}">
+</head>
+
+<body>
+
+<input name="_csrf" th:value="${_csrf.token}" type="hidden"/>
+<input name="_csrf_header" th:value="${_csrf.headerName}" type="hidden"/>
+
+<th:block layout:fragment="top-menu"/>
+
+<keystow:alert bi="${bi}" message="${message}" type="${type}"/>
+
+<th:block layout:fragment="page-content"/>
+<th:block layout:fragment="footer"/>
+<th:block layout:fragment="modal-extra"/>
+
+<th:block th:replace="~{pasta/pastaAddModalFast}"/>
+<th:block th:replace="~{senha/senhaHistoricoModalContainer}"/>
+<th:block th:replace="~{senha/senhaGerador}"/>
+
+<th:block th:replace="~{fragments/alerts :: alert-ajax}"/>
+<th:block th:replace="~{fragments/alerts :: toast}"/>
+
+<!--VENDORS-->
+<script th:src="@{/vendors/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendors/bootstrap/popper.min.js}"></script>
+<script th:src="@{/vendors/bootstrap/bootstrap.min.js}"></script>
+<script th:src="@{/vendors/sweetalert2/sweetalert2.min.js}"></script>
+<script th:src="@{/vendors/bootstrap-switch/bootstrap-switch.min.js}"></script>
+
+<!--PROJETO MAIN-->
+<script th:src="@{/js/add-uri-credencial.js(v=${version})}"></script>
+<script th:src="@{/js/add-campo-personalizado.js(v=${version})}"></script>
+<script th:src="@{/js/excluir-dialog-alert.js(v=${version})}"></script>
+<script th:src="@{/js/CadastrarPastaModalDialog.js(v=${version})}"></script>
+<script th:src="@{/js/alternar-visibilidade-senha.js(v=${version})}"></script>
+<script th:src="@{/js/open-uri.js(v=${version})}"></script>
+<script th:src="@{/js/copy-clipboard-valor.js(v=${version})}"></script>
+<script th:src="@{/js/GeradorDeSenha.js(v=${version})}"></script>
+<script th:src="@{/js/keystow.js(v=${version})}"></script>
+
+<th:block layout:fragment="js-extra"/>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!--Modal Gerador de Senha-->
+<div class="modal fade" id="geradorDeSenha" tabindex="-1" th:fragment="geradorDeSenha">
+    
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        
+        <form class="modal-content">
+            
+            <div class="modal-header">
+                <h2 class="modal-title h6">Gerador de Senha</h2>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            
+            <div class="modal-body">
+                
+                <div class="row">
+                    <div class="col form-group mb-3">
+                        <div class="input-group input-group-lg">
+                            <div class="form-control text-monospace  senhaMascara d-inline-block text-truncate"
+                                 style="max-width: 700px;"></div>
+                            <button aria-label="Alternar Visibilidade"
+                                    class="btn btn-outline-light border text-black js-btn-olho-gerador"
+                                    style="border: 1px solid #ced4da;" title="Alternar Visibilidade" type="button">
+                                <i aria-hidden="true" class="bi bi-eye-slash js-icon-tag-olho-gerador"></i>
+                            </button>
+                            <button aria-label="Copiar Senha"
+                                    class="btn btn-outline-light border text-black text-black js-btn-copiar-valor-gerador"
+                                    style="border: 1px solid #ced4da;" title="Copiar Senha" type="button">
+                                <i aria-hidden="true" class="bi-files"></i>
+                            </button>
+                            <button aria-label="Gerar Nova Senha"
+                                    class="btn btn-outline-light border text-black js-input-group-gerar-senha"
+                                    title="Gerar Nova Senha" type="submit">
+                                <i aria-hidden="true" class="bi-arrow-repeat"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">O que voce gostaria de gerar?</p>
+                                <div class="form-check" th:each="tipoGerador : ${tiposDoGerador}">
+                                    <input class="form-check-input"
+                                           id="tipoGerador"
+                                           name="tipoGerador"
+                                           th:checked="${tipoGerador.name() == 'GERADOR_SENHA'}"
+                                           th:id="${tipoGerador}"
+                                           th:value="${tipoGerador}"
+                                           type="radio">
+                                    <label class="form-check-label" for="tipoGerador" th:for="${tipoGerador}">
+                                        [[${tipoGerador.descricao}]]
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <h6 class="mt-4">OPÇÕES</h6>
+                </div>
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">Categoria de Senha</p>
+                                <div class="form-check" th:each="categoria : ${categoriasDoGerador}">
+                                    <input class="form-check-input" id="categoriaSenha"
+                                           name="categoriaDoGerador" th:checked="${categoria.name() == 'CATEGORIA_SENHA'}"
+                                           th:id="${categoria}" th:value="${categoria}" type="radio">
+                                    <label class="form-check-label" for="categoriaSenha" th:for="${categoria}">
+                                        [[${categoria.descricao}]]
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row d-flex align-items-end">
+                                    <div class="col-2">
+                                        <label class="form-label col-form-label" for="length">Tamanho</label>
+                                    </div>
+                                    <div class="col-2">
+                                        <input aria-label="Tamanho" class="form-control js-form-tamanho" id="length"
+                                               max="256" min="1"
+                                               step="1" tabindex="-1" type="number" value="8">
+                                    </div>
+                                    <div class="col">
+                                        <input aria-label="Tamanho" class="form-range js-form-range-tamanho" max="256"
+                                               min="1" step="1"
+                                               tabindex="-1" type="range" value="8">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body mb-0 pb-0">
+                                <label class="d-flex justify-content-between" for="uppercase">
+                                    <span class="form-label">A-Z</span>
+                                    <input aria-label="Maiúsculas (A-Z)" checked
+                                           class="form-check-input js-checkbox-maiusculas"
+                                           id="uppercase" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body mb-0 pb-0">
+                                <label class="d-flex justify-content-between" for="lowercase">
+                                    <span class="form-label">a-z</span>
+                                    <input aria-label="Minusculas (a-z)" checked
+                                           class="form-check-input js-checkbox-minusculas"
+                                           id="lowercase" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body mb-0 pb-0">
+                                <label class="d-flex justify-content-between" for="numbers">
+                                    <span class="form-label">0-9</span>
+                                    <input aria-label="Números (0-9)" checked
+                                           class="form-check-input js-checkbox-numeros"
+                                           id="numbers" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body mb-0 pb-0">
+                                <label class="d-flex justify-content-between" for="special">
+                                    <span class="form-label">!@#$%^&*</span>
+                                    <input aria-label="Caracteres especiais (!@#^&*)"
+                                           checked class="form-check-input js-checkbox-caracteres-especiais"
+                                           id="special" type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body mb-0 py-2">
+                                <div class="row d-flex align-items-end">
+                                    <div class="col">
+                                        <label class="form-label" for="min-number">Números Mínimos</label>
+                                    </div>
+                                    <div class="col-2">
+                                        <input class="form-control js-form-numeros-minimos" id="min-number" max="9"
+                                               min="1" step="1"
+                                               tabindex="-1" type="number" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body mb-0 py-2">
+                                <div class="row d-flex align-items-end">
+                                    <div class="col">
+                                        <label class="form-label col-form-label" for="min-special">Especiais
+                                                                                                   Mínimos</label>
+                                    </div>
+                                    <div class="col-2">
+                                        <input class="form-control js-form-caracteres-especiais-minimos"
+                                               id="min-special" max="9" min="1"
+                                               step="1" tabindex="-1" type="number" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body mb-0 pb-0">
+                                <label class="d-flex justify-content-between" for="ambiguous">
+                                    <span class="form-label">Evitar Caracteres Ambíguos</span>
+                                    <input aria-label="Caracteres especiais (!@#^&*)"
+                                           class="form-check-input js-checkbox-caracteres-ambiguos" id="ambiguous"
+                                           type="checkbox">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body mb-0 py-2">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col">
+                                        Histórico de Senha
+                                    </div>
+                                    <div class="col-2 d-flex justify-content-end">
+                                        <a class="btn btn-lg btn-outline-light border text-black js-btn-historico-senhas"
+                                           data-bs-target="#historicoDeSenha"
+                                           data-bs-toggle="modal"
+                                           href="#" style="border: 1px solid #ced4da;" title="Historico">
+                                            <i class="bi bi-clock-history"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+            
+            <div class="modal-footer d-flex justify-content-start">
+                <button class="btn btn-primary btn-submit js-btn-gerar-senha" type="submit">
+                    <i aria-hidden="true" class="bi-spinner bi-spin" title="Carregando"></i>
+                    <span>Gerar Nova Senha</span>
+                </button>
+                <button class="btn btn-outline-light border text-black js-btn-copiar-senha" type="button">
+                    Copiar Senha
+                </button>
+            </div>
+        
+        </form>
+    </div>
+</div>
+<!--Modal Gerador de Senha-->

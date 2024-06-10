@@ -1,0 +1,51 @@
+<html lang="pt-br"
+      xmlns:data="http://www.thymeleaf.org/extras/data"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:each="uri, stat : ${uris}" th:field="*{uris}">
+    
+    <div class="row mb-3 js-uri-row" data:index="${stat.index}">
+        
+        <input class="js-uri-input-id" id="uri-id" th:id="${'uri-id' + stat.index}"
+               th:value="${uri.id}"
+               type="hidden">
+        
+        <div class="col">
+            <label class="form-label" for="uri" th:for="${'uri' + stat.index}">URI [[${1 + stat.index}]]</label>
+            <div class="d-flex align-items-center">
+                <div class="input-group">
+                    <input class="form-control js-uri-input-valor js-input-clipboard" id="uri" placeholder="ex. https://google.com"
+                           th:id="${'uri' + stat.index}"
+                           th:name="${'uri' + stat.index}"
+                           th:value="${uri.valor}"
+                           type="text">
+                    <button aria-label="Abrir" class="btn btn-outline-secondary js-btn-abrir-uri"
+                            style="border: 1px solid #ced4da;"
+                            title="Abrir"
+                            type="button">
+                        <i aria-hidden="true" class="bi-box-arrow-up-right"></i>
+                    </button>
+                    <button aria-label="Copiar URI" class="btn btn-outline-secondary js-btn-copiar-valor"
+                            style="border: 1px solid #ced4da;"
+                            title="Copiar URI"
+                            type="button">
+                        <i aria-hidden="true" class="bi-files"></i>
+                    </button>
+                </div>
+                <button aria-label="Remover" class="btn btn-link text-danger ms-2 fs-4 js-excluir-uri"
+                        data:uri-id="${uri.id}"
+                        title="Remover" type="button">
+                    <i aria-hidden="true" class="bi-dash-circle"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+<div class="my-4 fs-6" th:if="${uris == null || uris.isEmpty()}">
+    <i class="bi bi-info-circle me-2"></i>
+    <span>Você ainda não adicionou nenhuma URI</span>
+</div>
+
+</html>

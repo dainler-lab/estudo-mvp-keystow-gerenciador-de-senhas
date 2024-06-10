@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      layout:decorate="~{layout/default}"
+      th:with="version=${#strings.randomAlphanumeric(4)}"
+      xmlns:data="http://www.thymeleaf.org/extras/data"
+      xmlns:keystow="http://keystow.com"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:text="${credencialFormDto.isNew} ? 'Criar Credencial' : 'Editar Credencial ${credencialFormDto.nome}'">
+        CREATE OU UPDATE
+    </title>
+</head>
+
+<body>
+<nav layout:fragment="top-menu" th:replace="~{fragments/nav-app :: nav-menu}"></nav>
+
+<div class="container my-4" layout:fragment="page-content">
+    
+    <keystow:field-errors-object fieldObject="credencialFormDto"/>
+    
+    <div class="row">
+        <nav th:replace="~{fragments/nav-app-aside-lateral}"></nav>
+        
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9" th:fragment="add-item">
+            <form th:action="${credencialFormDto.isNew} ? @{/credencial/add} : @{/credencial/{id}(id=${credencialFormDto.id})}"
+                  th:method="POST"
+                  th:object="${credencialFormDto}">
+                
+                <input th:field="*{id}" type="hidden"/>
+                
+                <input id="itemFormUUID" th:field="*{itemFormUUID}" type="hidden"/>
+                
+                <div class="card">
+                    <div class="card-header d-flex flex-wrap justify-content-between align-items-center p-4">
+                        <h1 class="h4 card-title text-uppercase my-auto">
+                            <a class="btn border me-2" href="javascript:history.back()">
+                                <i aria-hidden="true" class="bi bi-arrow-left fs-4"></i>
+                            </a>
+                            [[${credencialFormDto.isNew} ? 'Add Credencial' : 'Editar Credencial']]
+                        </h1>
+                        <div th:replace="~{fragments/btn.html::add-all-itens}"></div>
+                    </div>
+                    
+                    <div class="card-body p-4">
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="type">Que tipo de item é este?</label>
+                                <select class="form-select"
+                                        id="type"
+                                        keystow:classforerror="tipoDeItemDoCofre"
+                                        th:field="*{tipoDeItemDoCofre}">
+                                    <option value="">Selecione o tipo</option>
+                                    <option th:each="tipo : ${listDeTiposDeItens}" th:value="${tipo}">
+                                        [[${tipo.descricao}]]
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback" th:errors="*{tipoDeItemDoCofre}"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label" for="nomeItem">Nome</label>
+                                <input class="form-control"
+                                       id="nomeItem"
+                                       keystow:classforerror="nome"
+                                       th:field="*{nome}"
+                                       type="text"/>
+                                <div class="invalid-feedback" th:errors="*{nome}"></div>
+                            </div>
+                            
+                            <div class="col">
+                                <label class="form-label" for="pasta">Pasta</label>
+                                <div class="d-flex">
+                                    <select class="form-select"
+                                            id="pasta"
+                                            keystow:classforerror="pasta"
+                                            th:field="*{pasta}">
+                                        <option value="">Nenhuma pasta</option>
+                                        <option th:each="pasta : ${listaDePastasDonoUsuario}"
+                                                th:text="${pasta.nome}"
+                                                th:value="${pasta.id}">
+                                            Nome da pasta
+                                        </option>
+                                    </select>
+                                    
+                                    <a class="d-block fs-4 ms-2 text-decoration-none"
+                                       data-bs-target="#addPastaModal"
+                                       data-bs-toggle="modal"
+                                       href="#">
+                                        <i aria-hidden="true" class="bi-plus-circle"></i>
+                                    </a>
+                                </div>
+                                <div class="invalid-feedback" th:errors="*{pasta}"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3 d-flex align-items-end">
+                            <div class="col">
+                                <label class="form-label" for="loginUsername">Nome de usuário</label>
+                                <div class="input-group">
+                                    <input class="form-control js-input-clipboard"
+                                           id="loginUsername"
+                                           keystow:classforerror="nomeDeUsuario"
+                                           th:field="*{nomeDeUsuario}"
+                                           type="text"/>
+                                    <button aria-label="Copiar Nome de Usuário"
+                                            class="btn btn-outline-secondary js-btn-copiar-valor"
+                                            style="border: 1px solid #ced4da"
+                                            title="Copiar Nome de Usuário"
+                                            type="button">
+                                        <i aria-hidden="true" class="bi-files"></i>
+                                    </button>
+                                    <div class="invalid-feedback" th:errors="*{nomeDeUsuario}"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col">
+                                <div class="d-flex">
+                                    <label class="form-label" for="senha">Senha</label>
+                                    <div class="ms-auto d-flex">
+                                        <a aria-label="Gerar Senha"
+                                           class="d-block fs-4 me-2 js-btn-add-senha-input"
+                                           href="#"
+                                           title="Gerar Senha">
+                                            <i aria-hidden="true" class="bi-arrow-repeat"></i>
+                                        </a>
+                                        
+                                        <a aria-label="Verifique se a senha foi exposta."
+                                           class="d-block fs-4"
+                                           href="#"
+                                           title="Verifique se a senha foi exposta.">
+                                            <i aria-hidden="true" class="bi-check-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <input class="form-control text-monospace js-input-visibilidade js-input-clipboard js-form-input-add-senha"
+                                           id="senha"
+                                           keystow:classforerror="senha"
+                                           th:field="*{senha}"
+                                           type="text"/>
+                                    <button aria-label="Alternar Visibilidade"
+                                            class="btn btn-outline-secondary js-btn-olho"
+                                            style="border: 1px solid #ced4da"
+                                            title="Alternar Visibilidade"
+                                            type="button">
+                                        <i aria-hidden="true" class="bi bi-eye-slash js-icon-tag-olho"></i>
+                                    </button>
+                                    <button aria-label="Copiar Senha"
+                                            class="btn btn-outline-secondary js-btn-copiar-valor"
+                                            style="border: 1px solid #ced4da"
+                                            title="Copiar Senha"
+                                            type="button">
+                                        <i aria-hidden="true" class="bi-files"></i>
+                                    </button>
+                                    <div class="invalid-feedback" th:errors="*{senha}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="js-div-uris-container">
+                            <!--lista de uris-->
+                            <th:block th:replace="~{credencial/listaDeUris}"/>
+                        </div>
+                        
+                        <a class="d-inline-block fs-5 text-decoration-none js-add-uri" href="#">
+                            <i aria-hidden="true" class="bi-plus-circle"></i>
+                            Novo URI
+                        </a>
+                        
+                        <hr class="mt-4"/>
+                        
+                        <h3 class="my-4 text-uppercase fs-5">Campos Personalizados</h3>
+                        
+                        <div class="js-div-campos-personalizados-container">
+                            <th:block th:replace="~{credencial/listaDeItensDeCamposPersonalizados}"/>
+                        </div>
+                        
+                        <a class="d-inline-block fs-5 text-decoration-none mb-3 js-add-campo-personalizado"
+                           data:url="@{/credencial/campo-personalizado/add}"
+                           href="#">
+                            <i aria-hidden="true" class="bi-plus-circle"></i>
+                            Novo Campo Personalizado
+                        </a>
+                        
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="addFieldType">Tipo do Campo</label>
+                                <select class="form-select js-select-tipo-de-campo-personalizado"
+                                        id="addFieldType"
+                                        name="AddFieldType">
+                                    <option th:each="tipoDeCampoPersonalizado : ${listaDeTiposDeCamposPersonalizados}"
+                                            th:text="${tipoDeCampoPersonalizado.nome}"
+                                            th:value="${tipoDeCampoPersonalizado}">
+                                        Tipo Texto, Oculto ou Booleano
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <h3 class="mt-4 text-uppercase fs-5">Propriedade(Dono)</h3>
+                        
+                        <div class="row">
+                            <div class="col-5">
+                                <label for="dono">Quem possui esse item?</label>
+                                <select class="form-select js-select-dono-item" id="dono">
+                                    <option value="">Selecione o dono</option>
+                                    <option>user@email.com</option>
+                                    <option>user.org</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <h3 class="mt-4 text-uppercase fs-5">Opção</h3>
+                            <div class="form-check ms-2">
+                                <input class="form-check-input"
+                                       id="passwordPrompt"
+                                       name="passwordPrompt"
+                                       type="checkbox"/>
+                                <label class="form-check-label" for="passwordPrompt">
+                                    Nova solicitação de senha mestra
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer p-4 d-flex flex-column flex-sm-row gap-3">
+                        <button class="btn btn-lg btn-primary" type="submit">
+                            [[${credencialFormDto.isNew} ? 'Salvar' : 'Atualizar']]
+                        </button>
+                        
+                        <a class="btn btn-lg border" href="javascript:history.back()">
+                            Cancelar
+                        </a>
+                        
+                        <div class="ms-auto">
+                            <button aria-label="Favorito"
+                                    class="btn btn-link js-favoritar-btn"
+                                    title="Favorito"
+                                    type="button">
+                                <i aria-hidden="true" class="bi-star"></i>
+                            </button>
+                            <div class="d-none">
+                                <label for="favorito">Favorito</label>
+                                <input class="js-input-check-favorito" id="favorito" th:field="*{favorito}"
+                                       type="checkbox">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="footer" th:replace="~{fragments/footer-app}"></div>
+
+<th:block layout:fragment="js-extra">
+    <script th:src="@{/js/ItemFavorito.js(v=${version})}"></script>
+</th:block>
+
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<ul class="list-group list-group-flush">
+    <th:block th:each="senha : ${senhas}">
+        <li class="list-unstyled">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="d-inline-block text-truncate js-senha-historico" style="max-width: 300px;">
+                    [[${senha.valor}]]
+                </span>
+                <button class="btn btn-outline-light fs-5 js-btn-copiar-senha-historico"
+                        title="Copiar para a área de transferência">
+                    <i aria-hidden="true" class="bi bi-files text-muted"></i>
+                </button>
+            </div>
+            <small class="text-muted">
+                [[${senha.criadoEmFormattedDate}]]
+            </small>
+        </li>
+        <hr class="divider my-2"/>
+    </th:block>
+</ul>
+
+<div class="my-4 fs-6" th:if="${senhas == null || senhas.isEmpty()}">
+    <i class="bi bi-info-circle me-2"></i>
+    <span>Você ainda não gerou nenhuma senha.</span>
+</div>

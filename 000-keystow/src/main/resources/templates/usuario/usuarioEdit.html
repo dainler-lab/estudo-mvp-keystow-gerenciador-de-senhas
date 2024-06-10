@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      layout:decorate="~{layout/default}"
+      xmlns:keystow="http://keystow.com"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>
+        [[${usuarioFormDto.isNew} ? 'Add Usuário' : 'Edit Usuário']]
+    </title>
+</head>
+
+<body>
+<nav layout:fragment="top-menu" th:replace="~{fragments/nav-app :: nav-menu}"></nav>
+
+<div class="container my-4" layout:fragment="page-content">
+    
+    <keystow:field-errors-object fieldObject="usuarioFormDto"/>
+    
+    <div class="row">
+        
+        <nav th:replace="~{fragments/nav-app-aside-lateral}"></nav>
+        
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9">
+            <form th:action="${usuarioFormDto.isNew()} ? @{/u/add} : @{/u/{id}}"
+                  th:method="POST"
+                  th:object="${usuarioFormDto}">
+                
+                <input th:field="*{id}" type="hidden"/>
+                
+                <div class="card">
+                    <div class="card-header d-flex flex-wrap justify-content-between align-items-center p-4">
+                        <h1 class="h4 card-title text-uppercase my-auto">
+                            <a class="btn border me-2" href="javascript:history.back()">
+                                <i aria-hidden="true" class="bi bi-arrow-left fs-4"></i>
+                            </a>
+                            [[${usuarioFormDto.isNew} ? 'Add Usuário' : 'Editar Usuário']]
+                        </h1>
+                        <div th:replace="~{fragments/btn.html::add-all-itens}"></div>
+                    </div>
+                    
+                    <div class="card-body p-4">
+                        
+                        <div class="row mb-3">
+                            <div class="col-sm-6">
+                                <label class="form-label" for="usuarioNome">Nome</label>
+                                <input class="form-control"
+                                       id="usuarioNome"
+                                       keystow:classforerror="usuarioNome"
+                                       th:field="*{usuarioNome}"
+                                       type="text"/>
+                                <div class="invalid-feedback" th:errors="*{usuarioNome}"></div>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <label class="form-label" for="email">Email</label>
+                                <input class="form-control"
+                                       id="email"
+                                       keystow:classforerror="email"
+                                       th:field="*{email}"
+                                       type="text"/>
+                                <div class="invalid-feedback" th:errors="*{email}"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3 d-flex align-self-stretch align-items-stretch">
+                            <div class="col-sm-6">
+                                <div class="d-flex">
+                                    <label class="form-label" for="senha">Senha</label>
+                                    <div class="ms-auto d-flex">
+                                        <a aria-label="Gerar Senha"
+                                           class="d-block fs-4 me-2 js-btn-add-senha-input"
+                                           href="#"
+                                           title="Gerar Senha">
+                                            <i aria-hidden="true" class="bi-arrow-repeat"></i>
+                                        </a>
+                                        
+                                        <a aria-label="Verifique se a senha foi exposta."
+                                           class="d-block fs-4"
+                                           href="#"
+                                           title="Verifique se a senha foi exposta.">
+                                            <i aria-hidden="true" class="bi-check-circle"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <input class="form-control text-monospace js-input-visibilidade js-input-clipboard js-form-input-add-senha"
+                                           id="senha"
+                                           keystow:classforerror="senha"
+                                           th:field="*{senha}"
+                                           type="text"/>
+                                    <button aria-label="Alternar Visibilidade"
+                                            class="btn btn-outline-secondary js-btn-olho"
+                                            style="border: 1px solid #ced4da"
+                                            title="Alternar Visibilidade"
+                                            type="button">
+                                        <i aria-hidden="true" class="bi bi-eye-slash js-icon-tag-olho"></i>
+                                    </button>
+                                    <button aria-label="Copiar Senha"
+                                            class="btn btn-outline-secondary js-btn-copiar-valor"
+                                            style="border: 1px solid #ced4da"
+                                            title="Copiar Senha"
+                                            type="button">
+                                        <i aria-hidden="true" class="bi-files"></i>
+                                    </button>
+                                    <div class="invalid-feedback" th:errors="*{senha}"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6 align-bottom">
+                                
+                                <div class="d-flex">
+                                    <label class="form-label" for="confirmacaoDeSenha">Confirmação de Senha</label>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <input class="form-control text-monospace js-input-visibilidade js-input-clipboard js-form-input-add-senha"
+                                           id="confirmacaoDeSenha"
+                                           keystow:classforerror="confirmacaoDeSenha"
+                                           th:field="*{confirmacaoDeSenha}"
+                                           type="text"/>
+                                    <button aria-label="Alternar Visibilidade"
+                                            class="btn btn-outline-secondary js-btn-olho"
+                                            style="border: 1px solid #ced4da"
+                                            title="Alternar Visibilidade"
+                                            type="button">
+                                        <i aria-hidden="true" class="bi bi-eye-slash js-icon-tag-olho"></i>
+                                    </button>
+                                    <button aria-label="Copiar Senha"
+                                            class="btn btn-outline-secondary js-btn-copiar-valor"
+                                            style="border: 1px solid #ced4da"
+                                            title="Copiar Senha"
+                                            type="button">
+                                        <i aria-hidden="true" class="bi-files"></i>
+                                    </button>
+                                    <div class="invalid-feedback" th:errors="*{confirmacaoDeSenha}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3 form-group col-sm-3">
+                            <label class="control-label" for="ativo">Status</label>
+                            <div>
+                                <input class="js-status"
+                                       data-off-color="danger"
+                                       data-off-text="Inativo"
+                                       data-on-color="primary"
+                                       data-on-text="Ativo"
+                                       id="ativo"
+                                       th:field="*{ativo}"
+                                       type="checkbox"/>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="form-group">
+                                <div class="form-label">Grupos</div>
+                                <div class="fs-6" th:if="${listaDeGruposDonoUsuario == null || listaDeGruposDonoUsuario.isEmpty()}">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    <span>Você ainda não adicionou nenhum grupo</span>
+                                </div>
+                                <th:block th:each="grupo : ${listaDeGruposDonoUsuario}">
+                                    <div class="form-check form-check-inline fs-5">
+                                        <input class="form-check-input" id="usuarios_membros_grupos" th:field="*{grupos}"
+                                               th:id="${'grupo-'+ grupo.id}" th:value="${grupo.id}" type="checkbox">
+                                        <label class="form-check-label"
+                                               for="usuarios_membros_grupos"
+                                               th:for="${'grupo-'+ grupo.id}">
+                                            [[${grupo.nome}]]
+                                        </label>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    
+                    <div class="card-footer p-4 d-flex flex-column flex-sm-row gap-3">
+                        <button class="btn btn-lg btn-primary" type="submit">
+                            [[${usuarioFormDto.isNew} ? 'Salvar' : 'Atualizar']]
+                        </button>
+                        
+                        <a class="btn btn-lg border" href="javascript:history.back()">
+                            Cancelar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="footer" th:replace="~{fragments/footer-app}"></div>
+
+</body>
+
+</html>
