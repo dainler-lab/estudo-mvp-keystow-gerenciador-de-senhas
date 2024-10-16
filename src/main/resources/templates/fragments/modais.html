@@ -1,0 +1,320 @@
+<!-- Modal Adicionar Item -->
+<div class="card col-12 col-sm-12 col-md-12 col-lg-9" th:fragment="add-item">
+    <form method="post" th:object="${item}">
+        
+        <h1 class="card-header h4 card-title p-4 text-uppercase">Adicionar
+                                                                 Item</h1>
+        
+        <div class="card-body p-4">
+            
+            <div class="row">
+                <div class="col-6 form-group mb-3">
+                    <label for="type">Que tipo de item é este?</label>
+                    <select class="form-control" id="type" th:field="*{tipo}">
+                        <option value="">Selecione o tipo</option>
+                        <option th:each="tipo : ${tipos}" th:text="${tipo.descricao}" th:value="${tipo}">
+                            Tipo descrição
+                        </option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 form-group mb-3">
+                    <label for="nomeItem">Nome</label>
+                    <input class="form-control" id="nomeItem" th:field="*{nome}" type="text">
+                </div>
+                
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 form-group mb-3">
+                    <label for="folder">Pasta</label>
+                    <select class="form-control" id="folder">
+                        <option value="0: null">Nenhuma Pasta</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 form-group mb-3">
+                    <label for="loginUsername">Nome de Usuário</label>
+                    <div class="input-group">
+                        <input class="form-control js-input-clipboard" id="loginUsername" th:field="*{nomeDeUsuario}" type="text">
+                        <button aria-label="Copiar Nome de Usuário"
+                                class="btn btn-outline-secondary js-btn-copiar-valor"
+                                style="border: 1px solid #ced4da;"
+                                title="Copiar Nome de Usuário"
+                                type="button">
+                            <i aria-hidden="true" class="bi-files"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6 form-group mb-3">
+                    <div class="d-flex">
+                        <label for="loginPassword">Senha</label>
+                        <div class="ms-auto d-flex">
+                            <a aria-label="Gerar Senha" class="d-block fs-4 me-2" href="#" title="Gerar Senha">
+                                <i aria-hidden="true" class="bi-arrow-repeat"></i>
+                            </a>
+                            
+                            <a aria-label="Verifique se a senha foi exposta."
+                               class="d-block fs-4"
+                               href="#"
+                               title="Verifique se a senha foi exposta.">
+                                <i aria-hidden="true" class="bi-check-circle"></i>
+                                <i aria-hidden="true" class="bi-spinner bi-spin" hidden="" title="Carregando"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input class="form-control text-monospace js-input-clipboard"
+                               id="loginPassword"
+                               name="Login.Password"
+                               th:field="*{senha}"
+                               type="password">
+                        <button aria-label="Alternar Visibilidade"
+                                class="btn btn-outline-secondary"
+                                style="border: 1px solid #ced4da;"
+                                title="Alternar Visibilidade"
+                                type="button">
+                            <i aria-hidden="true" class="bi-eye"></i>
+                        </button>
+                        <button aria-label="Copiar Senha"
+                                class="btn btn-outline-secondary js-btn-copiar-valor"
+                                style="border: 1px solid #ced4da;"
+                                title="Copiar Senha"
+                                type="button">
+                            <i aria-hidden="true" class="bi-files"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="col form-group mb-3">
+                    <label for="loginUri0">URI 1</label>
+                    <div class="input-group">
+                        <input class="form-control js-input-clipboard"
+                               id="loginUri0"
+                               placeholder="ex. https://google.com"
+                               type="text">
+                        <button aria-label="Abrir"
+                                class="btn btn-outline-secondary"
+                                style="border: 1px solid #ced4da;"
+                                title="Abrir"
+                                type="button">
+                            <i aria-hidden="true" class="bi-box-arrow-up-right"></i>
+                        </button>
+                        <button aria-label="Copiar URI"
+                                class="btn btn-outline-secondary js-btn-copiar-valor"
+                                style="border: 1px solid #ced4da;"
+                                title="Copiar URI"
+                                type="button">
+                            <i aria-hidden="true" class="bi-files"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <a class="d-inline-block my-2 fs-6 text-decoration-none" href="#">
+                <i aria-hidden="true" class="bi-plus-circle"></i> Novo
+                                                                  URI
+            </a>
+            
+            <hr>
+            
+            <h3 class="my-4 text-uppercase fs-5">Campos
+                                                 Personalizados</h3>
+            
+            <div class="cdk-drop-list " id="cdk-drop-list-2">
+                
+                <div class="cdk-drag row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-5 form-group mb-3">
+                        <div class="d-flex">
+                            <label for="fieldName0">Nome</label>
+                        </div>
+                        <div class="input-group">
+                            <input class="form-control js-input-clipboard" id="fieldName0" type="text">
+                            <button aria-label="Copiar Valor"
+                                    class="btn btn-outline-secondary js-btn-copiar-valor"
+                                    style="border: 1px solid #ced4da;"
+                                    title="Copiar Valor"
+                                    type="button">
+                                <i aria-hidden="true" class="bi-files"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-7 form-group mb-3">
+                        <label for="fieldValue0">Valor</label>
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="input-group">
+                                <input class="form-control js-input-clipboard" id="fieldValue0" type="text">
+                                <button aria-label="Copiar Valor"
+                                        class="btn btn-outline-secondary js-btn-copiar-valor"
+                                        style="border: 1px solid #ced4da;"
+                                        title="Copiar Valor"
+                                        type="button">
+                                    <i aria-hidden="true" class="bi-files"></i>
+                                </button>
+                            </div>
+                            
+                            <button aria-label="Remover" class="btn btn-link text-danger ms-2 " title="Remover" type="button">
+                                <i aria-hidden="true" class="bi-dash-circle"></i>
+                            </button>
+                            
+                            <button aria-label="Arrastar para ordenar"
+                                    class="btn btn-link text-muted cursor-move "
+                                    title="Arrastar para ordenar"
+                                    type="button">
+                                <i aria-hidden="true" class="bi-list"></i>
+                            </button>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cdk-drag row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-5 form-group mb-3">
+                        <div class="d-flex">
+                            <label for="fieldName1">Nome</label>
+                        </div>
+                        <div class="input-group">
+                            <input class="form-control js-input-clipboard" id="fieldName1" type="text">
+                            <button aria-label="Copiar Valor"
+                                    class="btn btn-outline-secondary js-btn-copiar-valor"
+                                    style="border: 1px solid #ced4da;"
+                                    title="Copiar Valor"
+                                    type="button">
+                                <i aria-hidden="true" class="bi-files"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-7 form-group mb-3">
+                        <label for="fieldValue1">Valor</label>
+                        <div class="d-flex align-items-center">
+                            <div class="input-group">
+                                <input autocomplete="new-password"
+                                       class="form-control text-monospace js-input-clipboard"
+                                       id="fieldValue1"
+                                       type="password">
+                                <button aria-label="Alternar Visibilidade"
+                                        class="btn btn-outline-secondary"
+                                        style="border: 1px solid #ced4da;"
+                                        title="Alternar Visibilidade"
+                                        type="button">
+                                    <i aria-hidden="true" class="bi-eye">
+                                    </i>
+                                </button>
+                                <button aria-label="Copiar Valor"
+                                        class="btn btn-outline-secondary js-btn-copiar-valor"
+                                        style="border: 1px solid #ced4da;"
+                                        title="Copiar Valor"
+                                        type="button">
+                                    <i aria-hidden="true" class="bi-files"></i>
+                                </button>
+                            </div>
+                            
+                            <button aria-label="Remover" class="btn btn-link text-danger ms-2 " title="Remover" type="button">
+                                <i aria-hidden="true" class="bi-dash-circle"></i>
+                            </button>
+                            
+                            <button aria-label="Arrastar para ordenar"
+                                    class="btn btn-link text-muted cursor-move "
+                                    title="Arrastar para ordenar"
+                                    type="button">
+                                <i aria-hidden="true" class="bi-list"></i>
+                            </button>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cdk-drag row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-5 form-group mb-3">
+                        <div class="d-flex">
+                            <label for="fieldName2">Nome</label>
+                        </div>
+                        <div class="input-group">
+                            <input class="form-control js-input-clipboard" id="fieldName2" type="text">
+                            <button aria-label="Copiar Valor"
+                                    class="btn btn-outline-secondary js-btn-copiar-valor"
+                                    style="border: 1px solid #ced4da;"
+                                    title="Copiar Valor"
+                                    type="button">
+                                <i aria-hidden="true" class="bi-files"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-7 form-group mb-3">
+                        <label class="form-check-label" for="fieldValue2">Valor</label>
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="flex-fill">
+                                <input class="form-check-input" id="fieldValue2" type="checkbox">
+                            </div>
+                            
+                            <button aria-label="Remover" class="btn btn-link text-danger ms-2" title="Remover" type="button">
+                                <i aria-hidden="true" class="bi-dash-circle"></i>
+                            </button>
+                            
+                            <button aria-label="Arrastar para ordenar"
+                                    class="btn btn-link text-muted cursor-move "
+                                    title="Arrastar para ordenar"
+                                    type="button">
+                                <i aria-hidden="true" class="bi-list"></i>
+                            </button>
+                        
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+            
+            <a class="d-inline-block fs-6 text-decoration-none mb-3" href="#">
+                <i aria-hidden="true" class="bi-plus-circle"></i>
+                Novo Campo Personalizado
+            </a>
+            
+            <div class="row">
+                <div class="col-5">
+                    <label class="sr-only" for="addFieldType">Tipo</label>
+                    <select class="form-control " id="addFieldType" name="AddFieldType">
+                        <option value="0: 0">Texto</option>
+                        <option value="1: 1">Ocultado</option>
+                        <option value="2: 2">Booleano</option>
+                    </select>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <h3 class="mt-4 text-uppercase fs-5">Opção</h3>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" id="passwordPrompt" name="passwordPrompt" type="checkbox">
+                    <label class="form-check-label" for="passwordPrompt">Nova
+                                                                         solicitação de senha
+                                                                         mestra</label>
+                </div>
+            </div>
+        
+        </div>
+        
+        <div class="card-footer p-4 d-flex flex-column flex-sm-row gap-3">
+            <button class="btn btn-lg btn-primary" type="submit">
+                <i aria-hidden="true" class="bi-spinner bi-spin" title="Carregando"></i>
+                Criar conta
+            </button>
+            <a class="btn btn-lg border" href="javascript:history.back()">
+                Cancelar
+            </a>
+            
+            <div class="ms-auto">
+                <button aria-label="Favorito" class="btn btn-link" title="Favorito" type="button">
+                    <i aria-hidden="true" class="bi-star"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

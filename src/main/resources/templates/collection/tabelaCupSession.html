@@ -1,0 +1,48 @@
+<html lang="pt-br"
+      xmlns:data="http://www.thymeleaf.org/extras/data"
+      xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:each="collectionUsuarioPermissionDto : ${collectionUsuarioPermissionDtoList}">
+    
+    <div class="d-flex align-items-center border-top pt-3 mt-2">
+        <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-person fs-3 me-2"></i>
+                <div class="d-flex flex-column m-2">
+                    <div>[[${collectionUsuarioPermissionDto.usuarioNome}]]</div>
+                    <div class="text-muted">[[${collectionUsuarioPermissionDto.usuarioEmail}]]</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm">
+            <label class="form-label d-none" for="cup">Permissão</label>
+            <select class="form-select" data:usuario-id="${collectionUsuarioPermissionDto.usuarioId}" id="cup">
+                <option th:each="permission : ${permissions}"
+                        th:selected="${permission == collectionUsuarioPermissionDto.getPermission}"
+                        th:value="${permission}">
+                    [[${permission.description}]]
+                </option>
+            </select>
+        </div>
+        
+        <div class="ms-auto">
+            <button aria-label="Remover"
+                    class="btn btn-link text-muted ms-2 fs-4 js-excluir-collection-usuario-permission"
+                    data:usuario-id="${collectionUsuarioPermissionDto.usuarioId}"
+                    title="Remover"
+                    type="button">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+    </div>
+</th:block>
+
+<div th:if="${collectionUsuarioPermissionDtoList == null || collectionUsuarioPermissionDtoList.isEmpty()}">
+    <div class="border-top pt-3 mt-2">
+        <i class="bi bi-info-circle me-2"></i>
+        <span>Você ainda não adicionou nenhum usuário</span>
+    </div>
+</div>
+
+</html>

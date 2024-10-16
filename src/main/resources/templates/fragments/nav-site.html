@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light py-3 shadow-sm"
+     th:fragment="nav-menu">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">
+            <img alt="Logo Keystow"
+                 th:src="@{assets/logo/keystow-logo-text-preto-final.svg}">
+        </a>
+        
+        <button aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"
+                class="navbar-toggler"
+                data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse"
+                type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto d-grid gap-2 d-md-flex justify-content-md-end">
+                <li class="nav-item">
+                    <a class="btn btn-link text-decoration-none"
+                       th:href="@{/login}">
+                        Entrar
+                        <svg height="18" viewBox="0 0 18 18"
+                             width="18" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19,19H5V5h7V3H5A2,2,0,0,0,3,5V19a2,2,0,0,0,2,2H19a2.006,2.006,0,0,0,2-2V12H19ZM14,3V5h3.59L7.76,14.83l1.41,1.41L19,6.41V10h2V3Z"
+                                  fill="#45d"
+                                  id="ic_open_in_new_24px" transform="translate(-3 -3)"/>
+                        </svg>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary ml-md-2"
+                       th:href="@{/cadastro}">Criar conta</a>
+                </li>
+            </ul>
+        </div>
+    
+    </div>
+</nav>
